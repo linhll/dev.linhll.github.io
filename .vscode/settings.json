@@ -1,0 +1,9 @@
+{
+  "javascript.format.enable": false,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.tslint": true
+  },
+  "editor.wordWrap": "on",
+  "typescript.referencesCodeLens.enabled": true
+}
