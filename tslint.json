@@ -16,6 +16,7 @@
     "no-unused-variable": true,
     "no-unused-expression": [true, "allow-fast-null-checks"],
     "no-console": false,
+    "no-any": true,
     "curly": [true, "ignore-same-line"]
   }
 }

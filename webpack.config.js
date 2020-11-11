@@ -3,15 +3,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
-const Dotenv = require('dotenv-webpack');
 
 module.exports = (env, argv) => {
   argv.mode = argv.mode || 'development';
-  argv.port = argv.port || argv.PORT || 3000;
+  const PUBLIC_URL = argv.mode === 'development' ? '' : '';
   return {
     mode: argv.mode,
     entry: './src/index.tsx',
-    devtool: 'source-map',
+    devtool: argv.mode === 'development' ? 'source-map' : undefined,
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
@@ -43,6 +42,7 @@ module.exports = (env, argv) => {
     output: {
       path: path.join(__dirname, 'build'),
       filename: 'index.js',
+      publicPath: PUBLIC_URL,
     },
     plugins: [
       new CopyPlugin([{ from: './public', to: './', ignore: ['index.html'] }]),
@@ -50,8 +50,10 @@ module.exports = (env, argv) => {
         template: './public/index.html',
       }),
       new MiniCssExtractPlugin(),
-      // new webpack.HotModuleReplacementPlugin(),
-      new Dotenv(),
+      new webpack.DefinePlugin({
+        'process.env.PUBLIC_URL': JSON.stringify(PUBLIC_URL),
+      }),
+      new webpack.HotModuleReplacementPlugin(),
     ],
     devServer: {
       contentBase: path.join(__dirname, 'build'),
